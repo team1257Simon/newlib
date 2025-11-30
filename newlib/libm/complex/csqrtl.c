@@ -77,9 +77,9 @@ csqrtl(long double complex z)
 		 * csqrt(-inf + y i)   = 0   +  inf i
 		 */
 		if (signbit(a))
-			return (cpackl(fabsl(b - b), copysignl(a, b)));
+			return (cpackl(__builtin_fabsl(b - b), __builtin_copysignl(a, b)));
 		else
-			return (cpackl(a, copysignl(b - b, b)));
+			return (cpackl(a, __builtin_copysignl(b - b, b)));
 	}
 	/*
 	 * The remaining special case (b is NaN) is handled just fine by
@@ -87,7 +87,7 @@ csqrtl(long double complex z)
 	 */
 
 	/* Scale to avoid overflow. */
-	if (fabsl(a) >= THRESH || fabsl(b) >= THRESH) {
+	if (__builtin_fabsl(a) >= THRESH || __builtin_fabsl(b) >= THRESH) {
 		a *= 0.25L;
 		b *= 0.25L;
 		scale = true;
@@ -101,7 +101,7 @@ csqrtl(long double complex z)
 		result = cpackl(t, b / (2.0L * t));
 	} else {
 		t = sqrtl((-a + hypotl(a, b)) * 0.5L);
-		result = cpackl(fabsl(b) / (2.0L * t), copysignl(t, b));
+		result = cpackl(__builtin_fabsl(b) / (2.0L * t), __builtin_copysignl(t, b));
 	}
 
 	/* Rescale. */

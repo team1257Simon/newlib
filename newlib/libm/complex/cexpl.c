@@ -40,7 +40,7 @@ cexpl(long double complex z)
 
 	x = creall(z);
 	y = cimagl(z);
-	r = expl(x);
-	w = r * cosl(y) + r * sinl(y) * I;
+	r = __builtin_expl(x);
+	w = r * __builtin_cosl(y) + r * __builtin_sinl(y) * I;
 	return w;
 }

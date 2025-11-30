@@ -401,6 +401,12 @@ case "${host}" in
     oext=lo
     lpfx=
     aext=la ;;
+  *-*-ooos)
+    use_libtool=yes
+    have_sys_mach_dir=yes
+    oext=lo
+    lpfx=
+    aext=la ;;
   *) ;; #shared library not supported for ${host}
 esac
 
@@ -460,6 +466,11 @@ case "${host}" in
   d30v*)
 	sys_dir=
 	;;
+  *-*-ooos*)
+    sys_dir=ooos
+	posix_dir=posix
+	newlib_cflags="${newlib_cflags} -fPIC -DHAVE_MMAP=1 -DSIGNAL_PROVIDED -D_I386MACH_NEED_SOTYPE_FUNCTION -DHAVE_MKDIR -DHAVE_OPENDIR -D_NO_GETLOGIN -D_NO_GETPWENT -D_NO_GETUT -D_NO_GETPASS -D_NO_SIGSET -D_NO_WORDEXP -D_NO_POPEN -D_NO_POSIX_SPAWN -D_NO_GLOB"
+    ;;
   epiphany-*-*)
 	sys_dir=epiphany
 	# crt0 is provided by libgloss.

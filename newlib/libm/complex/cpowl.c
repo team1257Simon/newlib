@@ -45,12 +45,12 @@ cpowl(long double complex a, long double complex z)
 		return (0.0L + 0.0L * I);
 	}
 	arga = cargl(a);
-	r = powl(absa, x);
+	r = __builtin_powl(absa, x);
 	theta = x * arga;
 	if (y != 0.0L) {
-		r = r * expl(-y * arga);
-		theta = theta + y * logl(absa);
+		r = r * __builtin_expl(-y * arga);
+		theta = theta + y * __builtin_logl(absa);
 	}
-	w = r * cosl(theta) + (r * sinl(theta)) * I;
+	w = r * __builtin_cosl(theta) + (r * __builtin_sinl(theta)) * I;
 	return w;
 }

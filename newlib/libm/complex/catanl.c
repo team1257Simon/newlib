@@ -54,7 +54,7 @@ catanl(long double complex z)
 	if (a == 0.0)
 		goto ovrf;
 
-	t = 0.5L * atan2l(2.0L * x, a);
+	t = 0.5L * __builtin_atan2l(2.0L * x, a);
 	w = _redupil(t);
 
 	t = y - 1.0L;
@@ -64,7 +64,7 @@ catanl(long double complex z)
 
 	t = y + 1.0L;
 	a = (x2 + (t * t))/a;
-	w = w + (0.25L * logl(a)) * I;
+	w = w + (0.25L * __builtin_logl(a)) * I;
 	return w;
 
 ovrf:

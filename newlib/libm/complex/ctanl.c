@@ -40,9 +40,9 @@ ctanl(long double complex z)
 	long double complex w;
 	long double d;
 
-	d = cosl(2.0L * creall(z)) + coshl(2.0L * cimagl(z));
+	d = __builtin_cosl(2.0L * creall(z)) + __builtin_coshl(2.0L * cimagl(z));
 
-	if (fabsl(d) < 0.25L)
+	if (__builtin_fabsl(d) < 0.25L)
 		d = _ctansl(z);
 
 	if (d == 0.0L) {
@@ -51,6 +51,6 @@ ctanl(long double complex z)
 		return w;
 	}
 
-	w = sinl(2.0L * creall(z)) / d + (sinhl(2.0L * cimagl(z)) / d) * I;
+	w = __builtin_sinl(2.0L * creall(z)) / d + (__builtin_sinhl(2.0L * cimagl(z)) / d) * I;
 	return w;
 }

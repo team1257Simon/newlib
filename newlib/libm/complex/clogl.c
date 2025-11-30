@@ -39,8 +39,8 @@ clogl(long double complex z)
 	long double p, rr;
 
 	rr = cabsl(z);
-	p = logl(rr);
-	rr = atan2l(cimagl(z), creall(z));
+	p = __builtin_logl(rr);
+	rr = __builtin_atan2l(cimagl(z), creall(z));
 	w = p + rr * I;
 	return w;
 }

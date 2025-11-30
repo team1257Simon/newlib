@@ -40,6 +40,6 @@ csinhl(long double complex z)
 
 	x = creall(z);
 	y = cimagl(z);
-	w = sinhl(x) * cosl(y) + (coshl(x) * sinl(y)) * I;
+	w = __builtin_sinhl(x) * __builtin_cosl(y) + (__builtin_coshl(x) * __builtin_sinl(y)) * I;
 	return w;
 }

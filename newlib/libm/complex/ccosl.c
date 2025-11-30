@@ -40,6 +40,6 @@ ccosl(long double complex z)
 	long double ch, sh;
 
 	_cchshl(cimagl(z), &ch, &sh);
-	w = cosl(creall(z)) * ch - (sinl(creall(z)) * sh) * I;
+	w = __builtin_cosl(creall(z)) * ch - (__builtin_sinl(creall(z)) * sh) * I;
 	return w;
 }

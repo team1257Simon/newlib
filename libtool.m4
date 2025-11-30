@@ -2531,6 +2531,18 @@ newsos6)
   dynamic_linker='ldqnx.so'
   ;;
 
+ooos*)
+  version_type=linux
+  need_lib_prefix=no
+  need_version=no
+  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major $libname${shared_ext}'
+  soname_spec='${libname}${release}${shared_ext}$major'
+  shlibpath_var=LD_LIBRARY_PATH
+  shlibpath_overrides_runpath=no
+  hardcode_into_libs=yes
+  dynamic_linker='ld-ooos.so'
+  ;;
+
 openbsd*)
   version_type=sunos
   sys_lib_dlsearch_path_spec="/usr/lib"
@@ -3108,6 +3120,10 @@ newos6*)
   ;;
 
 *nto* | *qnx*)
+  lt_cv_deplibs_check_method=pass_all
+  ;;
+
+ooos*)
   lt_cv_deplibs_check_method=pass_all
   ;;
 
@@ -3800,6 +3816,8 @@ m4_if([$1], [CXX], [
 	;;
       netbsd*)
 	;;
+      ooos*)
+	;;
       *qnx* | *nto*)
         # QNX uses GNU C++, but need to define -shared option too, otherwise
         # it will coredump.
@@ -4100,6 +4118,12 @@ m4_if([$1], [CXX], [
       # it will coredump.
       _LT_TAGVAR(lt_prog_compiler_pic, $1)='-fPIC -shared'
       ;;
+
+	ooos*)
+	 _LT_TAGVAR(lt_prog_compiler_wl, $1)='-Wl,'
+	 _LT_TAGVAR(lt_prog_compiler_pic, $1)='-fPIC -shared'
+	 _LT_TAGVAR(lt_prog_compiler_static, $1)='-static'
+	 ;;
 
     osf3* | osf4* | osf5*)
       _LT_TAGVAR(lt_prog_compiler_wl, $1)='-Wl,'
@@ -5945,7 +5969,9 @@ if test "$_lt_caught_CXX_error" != yes; then
         _LT_TAGVAR(hardcode_libdir_separator, $1)=:
         _LT_TAGVAR(inherit_rpath, $1)=yes
         ;;
-
+      ooos*)
+        _LT_TAGVAR(ld_shlibs, $1)=yes
+        ;;
       linux* | k*bsd*-gnu | kopensolaris*-gnu)
         case $cc_basename in
           KCC*)

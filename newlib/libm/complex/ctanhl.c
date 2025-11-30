@@ -40,8 +40,8 @@ ctanhl(long double complex z)
 
 	x = creall(z);
 	y = cimagl(z);
-	d = coshl(2.0L * x) + cosl(2.0L * y);
-	w = sinhl(2.0L * x) / d  +  (sinl(2.0L * y) / d) * I;
+	d = __builtin_coshl(2.0L * x) + __builtin_cosl(2.0L * y);
+	w = __builtin_sinhl(2.0L * x) / d  +  (__builtin_sinl(2.0L * y) / d) * I;
 
 	return w;
 }

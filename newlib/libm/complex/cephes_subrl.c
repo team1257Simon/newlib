@@ -40,11 +40,11 @@ _cchshl(long double x, long double *c, long double *s)
 {
 	long double e, ei;
 
-	if (fabsl(x) <= 0.5L) {
-		*c = coshl(x);
-		*s = sinhl(x);
+	if (__builtin_fabsl(x) <= 0.5L) {
+		*c = __builtin_coshl(x);
+		*s = __builtin_sinhl(x);
 	} else {
-		e = expl(x);
+		e = __builtin_expl(x);
 		ei = 0.5L / e;
 		e = 0.5L * e;
 		*s = e - ei;
@@ -91,8 +91,8 @@ _ctansl(long double complex z)
 	long double f, x, x2, y, y2, rn, t;
 	long double d;
 
-	x = fabsl(2.0L * creall(z));
-	y = fabsl(2.0L * cimagl(z));
+	x = __builtin_fabsl(2.0L * creall(z));
+	y = __builtin_fabsl(2.0L * cimagl(z));
 
 	x = _redupil(x);
 
@@ -123,6 +123,6 @@ _ctansl(long double complex z)
 		t = y2 - x2;
 		t /= f;
 		d += t;
-	} while (fabsl(t/d) > MACHEPL);
+	} while (__builtin_fabsl(t/d) > MACHEPL);
 	return d;
 }
