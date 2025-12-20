@@ -6,7 +6,7 @@ extern "C"
 #endif
 typedef int pthread_t;
 typedef struct { volatile unsigned char : 8; } pthread_spinlock_t;
-typedef const struct { volatile unsigned long : 64; } private_data_qword;
+typedef struct { const volatile unsigned long : 64; } private_data_qword;
 typedef struct {
 	unsigned long stack_size;
 	unsigned char detach_state;
