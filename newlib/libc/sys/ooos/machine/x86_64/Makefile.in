@@ -43,7 +43,12 @@ DIST_COMMON = $(srcdir)/../../../../../Makefile.shared \
 	$(srcdir)/../../../../../../mkinstalldirs
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/../../../../../acinclude.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/../../../../../../libtool.m4 \
+	$(top_srcdir)/../../../../../../ltoptions.m4 \
+	$(top_srcdir)/../../../../../../ltsugar.m4 \
+	$(top_srcdir)/../../../../../../ltversion.m4 \
+	$(top_srcdir)/../../../../../../lt~obsolete.m4 \
+	$(top_srcdir)/../../../../../acinclude.m4 \
 	$(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -55,12 +60,13 @@ CONFIG_CLEAN_VPATH_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 ARFLAGS = cru
 lib_a_AR = $(AR) $(ARFLAGS)
-am__objects_1 = lib_a-tls_stub.$(OBJEXT) lib_a-dl_stub.$(OBJEXT)
+am__objects_1 = lib_a-tls_stub.$(OBJEXT) lib_a-dl_stub.$(OBJEXT) \
+	lib_a-thread_landing.$(OBJEXT)
 @USE_LIBTOOL_FALSE@am_lib_a_OBJECTS = $(am__objects_1)
 lib_a_OBJECTS = $(am_lib_a_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libooosx86_64_la_LIBADD =
-am__objects_2 = tls_stub.lo dl_stub.lo
+am__objects_2 = tls_stub.lo dl_stub.lo thread_landing.lo
 @USE_LIBTOOL_TRUE@am_libooosx86_64_la_OBJECTS = $(am__objects_2)
 libooosx86_64_la_OBJECTS = $(am_libooosx86_64_la_OBJECTS)
 libooosx86_64_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -70,6 +76,11 @@ libooosx86_64_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp =
 am__depfiles_maybe =
+CPPASCOMPILE = $(CCAS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CCASFLAGS) $(CCASFLAGS)
+LTCPPASCOMPILE = $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=compile $(CCAS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CCASFLAGS) $(CCASFLAGS)
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -212,7 +223,7 @@ AUTOMAKE_OPTIONS = cygnus
 INCLUDES = $(NEWLIB_CFLAGS) $(CROSS_CFLAGS) $(TARGET_CFLAGS)
 @USE_LIBTOOL_FALSE@AM_CCASFLAGS = $(INCLUDES)
 @USE_LIBTOOL_TRUE@AM_CCASFLAGS = $(INCLUDES)
-LIB_SOURCES = tls_stub.c dl_stub.c
+LIB_SOURCES = tls_stub.c dl_stub.c thread_landing.S
 libooosx86_64_la_LDFLAGS = -Xcompiler -nostdlib
 @USE_LIBTOOL_TRUE@noinst_LTLIBRARIES = libooosx86_64.la
 @USE_LIBTOOL_TRUE@libooosx86_64_la_SOURCES = $(LIB_SOURCES)
@@ -239,7 +250,7 @@ CONFIG_STATUS_DEPENDENCIES = $(newlib_basedir)/configure.host
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .def .xml .c .lo .o .obj
+.SUFFIXES: .def .xml .S .c .lo .o .obj
 am--refresh:
 	@:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/../../../../../Makefile.shared $(am__configure_deps)
@@ -298,6 +309,21 @@ mostlyclean-compile:
 
 distclean-compile:
 	-rm -f *.tab.c
+
+.S.o:
+	$(CPPASCOMPILE) -c -o $@ $<
+
+.S.obj:
+	$(CPPASCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.S.lo:
+	$(LTCPPASCOMPILE) -c -o $@ $<
+
+lib_a-thread_landing.o: thread_landing.S
+	$(CCAS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CCASFLAGS) $(CCASFLAGS) -c -o lib_a-thread_landing.o `test -f 'thread_landing.S' || echo '$(srcdir)/'`thread_landing.S
+
+lib_a-thread_landing.obj: thread_landing.S
+	$(CCAS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CCASFLAGS) $(CCASFLAGS) -c -o lib_a-thread_landing.obj `if test -f 'thread_landing.S'; then $(CYGPATH_W) 'thread_landing.S'; else $(CYGPATH_W) '$(srcdir)/thread_landing.S'; fi`
 
 .c.o:
 	$(COMPILE) -c $<
