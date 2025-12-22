@@ -60,12 +60,13 @@ lib_a_AR = $(AR) $(ARFLAGS)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
 am__objects_1 = lib_a-syscalls.$(OBJEXT) lib_a-posix_stub.$(OBJEXT) \
-	lib_a-dirent.$(OBJEXT) lib_a-pthread_syscalls.$(OBJEXT)
+	lib_a-dirent.$(OBJEXT) lib_a-pthread_syscalls.$(OBJEXT) \
+	lib_a-pwd.$(OBJEXT)
 @USE_LIBTOOL_FALSE@am_lib_a_OBJECTS = $(am__objects_1)
 lib_a_OBJECTS = $(am_lib_a_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__objects_2 = syscalls.lo posix_stub.lo dirent.lo \
-	pthread_syscalls.lo
+	pthread_syscalls.lo pwd.lo
 @USE_LIBTOOL_TRUE@am_libooos_la_OBJECTS = $(am__objects_2)
 libooos_la_OBJECTS = $(am_libooos_la_OBJECTS)
 @USE_LIBTOOL_TRUE@am_libooos_la_rpath =
@@ -236,7 +237,7 @@ noinst_LIBRARIES = lib.a
 SUBLIBS = $(OOOS_MACHINE_LIB) \
 	$(EXTRA_SUBLIBS)
 
-GENERAL_SOURCES = syscalls.c posix_stub.c dirent.c pthread_syscalls.c
+GENERAL_SOURCES = syscalls.c posix_stub.c dirent.c pthread_syscalls.c pwd.c
 ADD_OBJS = $(OOOS_MACHINE_LIB)
 
 # libooos_la_LDFLAGS = -Xcompiler -nostdlib
@@ -350,6 +351,12 @@ lib_a-pthread_syscalls.o: pthread_syscalls.c
 
 lib_a-pthread_syscalls.obj: pthread_syscalls.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-pthread_syscalls.obj `if test -f 'pthread_syscalls.c'; then $(CYGPATH_W) 'pthread_syscalls.c'; else $(CYGPATH_W) '$(srcdir)/pthread_syscalls.c'; fi`
+
+lib_a-pwd.o: pwd.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-pwd.o `test -f 'pwd.c' || echo '$(srcdir)/'`pwd.c
+
+lib_a-pwd.obj: pwd.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-pwd.obj `if test -f 'pwd.c'; then $(CYGPATH_W) 'pwd.c'; else $(CYGPATH_W) '$(srcdir)/pwd.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

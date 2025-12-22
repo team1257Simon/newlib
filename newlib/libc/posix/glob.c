@@ -379,9 +379,6 @@ globtilde(pattern, patbuf, patbuf_len, pglob)
 		 * the password file
 		 */
 		if (
-#ifndef	__NETBSD_SYSCALLS
-		    issetugid() != 0 ||
-#endif
 		    (h = getenv("HOME")) == NULL) {
 /* If we are not EL/IX level 4, we cannot use getpwxxx interfaces */
 #if !defined(_ELIX_LEVEL) || _ELIX_LEVEL >= 4
@@ -600,6 +597,8 @@ glob2(pathbuf, pathend, pathend_last, pattern, pglob, limit)
 	/* NOTREACHED */
 }
 
+typedef struct dirent *(*readdirfunc_t)(void*);
+
 static int
 glob3(pathbuf, pathend, pathend_last, pattern, restpattern, pglob, limit)
 	Char *pathbuf, *pathend, *pathend_last, *pattern, *restpattern;
@@ -612,12 +611,12 @@ glob3(pathbuf, pathend, pathend_last, pattern, restpattern, pglob, limit)
 	char buf[MAXPATHLEN];
 
 	/*
-	 * The readdirfunc declaration can't be prototyped, because it is
+	 * The readdirfunc declaration can't be easily prototyped, because it is
 	 * assigned, below, to two functions which are prototyped in glob.h
 	 * and dirent.h as taking pointers to differently typed opaque
-	 * structures.
+	 * structures. The typedef allows for a cast to avoid any compiler errors.
 	 */
-	struct dirent *(*readdirfunc)();
+	readdirfunc_t readdirfunc;
 
 	if (pathend > pathend_last)
 		return (1);
@@ -642,7 +641,7 @@ glob3(pathbuf, pathend, pathend_last, pattern, restpattern, pglob, limit)
 	if (pglob->gl_flags & GLOB_ALTDIRFUNC)
 		readdirfunc = pglob->gl_readdir;
 	else
-		readdirfunc = readdir;
+		readdirfunc = (readdirfunc_t)readdir;
 	while ((dp = (*readdirfunc)(dirp))) {
 		u_char *sc;
 		Char *dc;

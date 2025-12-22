@@ -37,7 +37,6 @@
 #define	_GLOB_H_
 
 #include <sys/cdefs.h>
-
 struct stat;
 typedef struct {
 	int gl_pathc;		/* Count of total paths so far. */
